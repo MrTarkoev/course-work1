@@ -1,4 +1,5 @@
 import java.util.Objects;
+
 public class Employee {
     static int id=0;
     String name;
@@ -41,7 +42,7 @@ public class Employee {
     }
     @Override
     public String toString(){
-        return name+", id: "+employeeId+", "+department+" department, "+salary;
+        return "Name: "+name+",  ID: "+employeeId+",  Department: "+department+",  Salary: "+salary;
     }
     @Override
     public boolean equals(Object o) {
@@ -55,77 +56,135 @@ public class Employee {
     public int hashCode() {
         return Objects.hash(name, employeeId);
     }
+    public static void errorMes(){
+        System.out.println("Ошибка! Обратитесь к администратору.");
+    }
     public static void getSalaryCosts(Employee[] employees){
         if (employees != null) {
             int salaryCosts=0;
+            int countOfNullPointers=0;
             for (int i = 0; i < employees.length; i++) {
-                salaryCosts += employees[i].getSalary();
+                if (employees[i] == null) {
+                    countOfNullPointers++;
+                }else{
+                    salaryCosts += employees[i].getSalary();
+                }
             }
-            System.out.println("Salary costs: "+salaryCosts);
+            if(countOfNullPointers==employees.length){
+                errorMes();
+            }else{
+                System.out.println("Salary costs: "+salaryCosts);
+            }
         }else {
-            System.out.println("null");
+            errorMes();
         }
     }
     public static void getMinSalaryEmployee(Employee[] employees){
         if (employees != null) {
             if (employees.length >= 1) {
                 Employee minSalaryEmployee = employees[0];
-                int minSalary = minSalaryEmployee.getSalary();
+                int minSalary = (minSalaryEmployee==null)?0:minSalaryEmployee.getSalary();
                 for (int i = 1; i < employees.length; i++) {
+                    if(employees[i]==null){
+                        continue;
+                    }
                     int curSalary = employees[i].getSalary();
                     if(curSalary < minSalary){
                         minSalary = curSalary;
                         minSalaryEmployee = employees[i];
                     }
                 }
-                System.out.println(minSalaryEmployee);
+                if (minSalaryEmployee != null) {
+                    System.out.println(minSalaryEmployee);
+                } else {
+                    errorMes();
+                }
             }else{
-                System.out.println("null");
+                errorMes();
             }
         }
+        else{errorMes();}
     }
     public static void getMaxSalaryEmployee(Employee[] employees){
         if (employees != null) {
             int maxSalary = 0;
             Employee maxSalaryEmployee = null;
             for (int i = 0; i < employees.length; i++) {
-                int curSalary = employees[i].getSalary();
+                if(employees[i] == null){
+                    continue;
+                }
+                int curSalary =employees[i].getSalary();
                 if(curSalary>maxSalary){
                     maxSalary = curSalary;
                     maxSalaryEmployee = employees[i];
                 }
             }
-            System.out.println(maxSalaryEmployee);
+            if(maxSalaryEmployee!=null){
+                System.out.println(maxSalaryEmployee);
+            }else{
+                errorMes();
+            }
+        }else {
+            errorMes();
         }
     }
-    public static void getAvgSalary(Employee[] employees){
+    public static void getAverageSalary(Employee[] employees){
         if (employees != null) {
             double avgSalary = 0.0;
+            int countOfNullPointers  = 0;
+            int countOfEmployees  = employees.length;
             for (int i = 0; i < employees.length; i++) {
-                avgSalary += employees[i].getSalary();
+                if (employees[i] == null) {
+                    countOfNullPointers++;
+                    countOfEmployees--;
+                }else{
+                    avgSalary += employees[i].getSalary();
+                }
             }
-            avgSalary = avgSalary/employees.length;
-            System.out.println(avgSalary);
+            if(countOfNullPointers==employees.length){
+                errorMes();
+            }else{
+                avgSalary = avgSalary/countOfEmployees;
+                System.out.println(avgSalary);
+            }
         } else{
-            System.out.println("null");
+            errorMes();
+
         }
     }
     public static void getEmployeesNameList(Employee[] employees){
         if (employees != null) {
+            int countOfNullPointers = 0;
             for (int i = 0; i < employees.length; i++) {
-                System.out.println(employees[i].getName());
+                if(employees[i]!=null){
+                    System.out.println(employees[i].getName());
+                }else{
+                    countOfNullPointers++;
+                }
+            }
+            if(countOfNullPointers == employees.length){
+                errorMes();
             }
         } else {
-            System.out.println("null");
+            errorMes();
         }
     }
     public static void getEmployeesInfoList(Employee[] employees){
         if (employees != null) {
+            int countOfNullPointers = 0;
             for (int i = 0; i < employees.length; i++) {
-                System.out.println(employees[i]);
+                if( employees[i]!=null){
+                    System.out.println(employees[i]);
+                }else {
+                    countOfNullPointers++;
+                }
+            }
+            if(countOfNullPointers == employees.length){
+                errorMes();
             }
         }else{
-            System.out.println("null");
+            errorMes();
+
         }
     }
 
